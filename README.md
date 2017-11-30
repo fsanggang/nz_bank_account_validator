@@ -1,6 +1,15 @@
 # NzBankAccountValidator
 
-**TODO: Add description**
+Validator for NZ bank accounts.
+
+Example usage:
+
+```elixir
+$ iex -S mix
+> NzBankAccountValidator.is_valid?("31-2800-0320871-032")
+```
+
+Implementation is based off https://www.ird.govt.nz/resources/d/8/d8e49dce-1bda-4875-8acf-9ebf908c6e17/rwt-nrwt-spec-2014.pdf.
 
 ## Installation
 
