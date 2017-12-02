@@ -4,6 +4,25 @@ defmodule AlgorithmSelector do
   bank account number.
   """
 
+  @doc """
+  Checks that a given bank_id, bank_branch, and base falls has the expected
+  value or falls within the expected range.
+
+  Returns {:ok, <summing strategy>, <weighting>} or {:error, <message>} if
+  the bank_id, bank_branch, and base are invalid.
+
+  ## Examples
+
+      iex> AlgorithmSelector.which_algo?(1, 902, 68389)
+      {:ok, :sum, :a}
+
+      iex> AlgorithmSelector.which_algo?(1, 3333, 68389)
+      {:error, "Invalid bank_branch: 3333"}
+
+  """
+  @spec which_algo?( number, number, number ) :: { :ok, atom, atom } | { :error, String.t }
+  def which_algo?( bank_id, bank_branch, base )
+
   def which_algo?( 1, bank_branch, base )
     when bank_branch in 1..999
     when bank_branch in 1100..1199
