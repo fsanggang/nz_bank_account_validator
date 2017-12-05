@@ -33,8 +33,7 @@ $ iex -S mix
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `nz_bank_account_validator` to your list of dependencies in `mix.exs`:
+Add `nz_bank_account_validator` to your list of dependencies in mix.exs:
 
 ```elixir
 def deps do
@@ -42,6 +41,12 @@ def deps do
     {:nz_bank_account_validator, "~> 1.0.0"}
   ]
 end
+```
+
+Don’t forget to update your dependencies.
+
+```
+$ mix deps.get
 ```
 
 ## Links
