@@ -25,30 +25,8 @@ defmodule NzBankAccountValidator do
     as_keyword_list = Util.account_number_as_keyword_list( account_number, separator )
 
     case AlgorithmSelector.which_algo?( as_keyword_list[:bank_id], as_keyword_list[:bank_branch], as_keyword_list[:base] ) do
-      { :ok, strategy, weighting } -> zero_remainder?( as_keyword_list, strategy, weighting )
+      { :ok, strategy, weighting } -> Util.zero_remainder?( as_keyword_list, strategy, weighting )
       { :error, reason }           -> { :error, reason }
-    end
-  end
-
-
-  # 1. Pads the supplied bank account with leading zeroes, then
-  # 2. Applies the specified weighting, then
-  # 3. Uses the specified strategy to sum the weighted values, then
-  # 4. Checks whether the remainder is zero.
-  @spec zero_remainder?( list( any ), atom, atom ) :: { :ok, term } | { :error, String.t }
-  defp zero_remainder?( account_number, strategy, weighting ) do
-    weighted  =
-      Util.prep_to_apply_weighting( account_number )
-      |> Util.apply_weighting( weighting  )
-
-    remainder =
-      apply( Util, strategy, [weighted] )
-      |> Util.remainder( weighting )
-
-    if remainder == 0 do
-      { :ok, true }
-    else
-      { :error, "Invalid bank account number" }
     end
   end
 end

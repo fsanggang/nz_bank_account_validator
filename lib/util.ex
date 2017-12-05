@@ -42,19 +42,34 @@ defmodule Util do
   end
 
   @doc """
-  Converts a bank account number keyword list into a padded list of integers.
-
-  Each component of a bank account number must be left-padded with zeroes
-  before the weighting can be applied.
+  Checks whether the padded and weighted bank account number returns a zero
+  remainder when divided with the appropriate modulus - if yes, it is valid.
 
   ## Examples
 
-      iex> Util.prep_to_apply_weighting( [bank_id: 1, bank_branch: 902, base: 68389, suffix: 0] )
-      [0, 1, 0, 9, 0, 2, 0, 0, 0, 6, 8, 3, 8, 9, 0, 0, 0, 0]
+    iex> Util.zero_remainder([0, 1, 0, 9, 0, 2, 0, 0, 0, 6, 8, 3, 8, 9, 0, 0, 0, 0])
+    { :ok, true }
 
   """
+  @spec zero_remainder?( list( any ), atom, atom ) :: { :ok, term } | { :error, String.t }
+  def zero_remainder?( account_number, strategy, weighting ) do
+    weighted  = prep_to_apply_weighting( account_number ) |> apply_weighting( weighting  )
+    remainder = apply( Util, strategy, [weighted] ) |> remainder( weighting )
+
+    if remainder == 0 do
+      { :ok, true }
+    else
+      { :error, "Invalid bank account number" }
+    end
+  end
+
+  # Converts a bank account number keyword list into a padded list of integers.
+  #
+  # Each component of a bank account number must be left-padded with zeroes
+  # to its maximum length as defined in @max_lengths before the weighting
+  # can be applied.
   @spec prep_to_apply_weighting( list( any ) ) :: list( integer )
-  def prep_to_apply_weighting( account_number ) do
+  defp prep_to_apply_weighting( account_number ) do
     Enum.reduce(
       account_number,
       "",
@@ -64,19 +79,11 @@ defmodule Util do
     |> Enum.map( fn(x) -> String.to_integer( x ) end )
   end
 
-  @doc """
-  Multiply each integer in the list with its corresponding weighting.
 
-  The weighting used in this operation is specified in @weightings.
-
-  ## Examples
-
-      iex> Util.apply_weighting( [0, 1, 0, 9, 0, 2, 0, 0, 0, 6, 8, 3, 8, 9, 0, 0, 0, 0], :a )
-      [0, 0, 0, 27, 0, 18, 0, 0, 0, 30, 64, 12, 16, 9, 0, 0, 0, 0]
-
-  """
+  # Multiply each integer in the list with its corresponding weighting, as
+  # specified in @weightings.
   @spec apply_weighting( list( integer ), atom ) :: list( integer )
-  def apply_weighting( account_number, weighting ) do
+  defp apply_weighting( account_number, weighting ) do
     Enum.zip( account_number, @weightings[weighting][:weighting] )
     |> Enum.reduce( [], fn(x, acc) -> acc ++ [elem(x, 0) * elem(x, 1)] end )
   end
@@ -107,16 +114,8 @@ defmodule Util do
     |> Enum.sum
   end
 
-  @doc """
-  Calculates the remainder of a given number.
-
-  The modulo used in this operation is specified in @weightings
-
-  iex> Util.remainder( 30, :f )
-  0
-
-  """
-  def remainder( summed, weighting ) do
+  # Calculates the remainder of a number for a modulo specified in @weightings.
+  defp remainder( summed, weighting ) do
     rem( summed, @weightings[weighting][:modulus] )
   end
 
