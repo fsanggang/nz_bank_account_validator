@@ -1,16 +1,33 @@
 # NzBankAccountValidator
 
+[![Build Status](https://travis-ci.org/fsanggang/uk_account_validator.svg?branch=master)](https://github.com/fsanggang/nz_bank_account_validator)
+
 Validator for NZ bank accounts.
 
-Example usage:
+## Examples
 
 ```elixir
 $ iex -S mix
 > NzBankAccountValidator.is_valid?("31-2800-0320871-032")
 {:ok, true}
+
+iex> NzBankAccountValidator.is_valid?("01-3333-0068389-00")
+{:error, "Invalid bank_branch: 3333"}
 ```
 
-Implementation is based off https://www.ird.govt.nz/resources/d/8/d8e49dce-1bda-4875-8acf-9ebf908c6e17/rwt-nrwt-spec-2014.pdf.
+## Options
+
+There is a separator between each component of a bank account number (defaults to -).
+
+```elixir
+$ iex -S mix
+> NzBankAccountValidator.is_valid?("31-2800-0320871-032")
+{:ok, true}
+
+> NzBankAccountValidator.is_valid?("31 2800 0320871 032", " ")
+{:ok, true}
+```
+
 
 ## Installation
 
@@ -25,7 +42,6 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/nz_bank_account_validator](https://hexdocs.pm/nz_bank_account_validator).
+## Links
 
+Implementation is based off https://www.ird.govt.nz/resources/d/8/d8e49dce-1bda-4875-8acf-9ebf908c6e17/rwt-nrwt-spec-2014.pdf.
