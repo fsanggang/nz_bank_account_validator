@@ -1,6 +1,8 @@
 # NzBankAccountValidator
 
 [![Build Status](https://travis-ci.org/fsanggang/uk_account_validator.svg?branch=master)](https://github.com/fsanggang/nz_bank_account_validator)
+[![Hex.pm](https://img.shields.io/hexpm/v/slugify.svg)](https://hex.pm/packages/nz_bank_account_validator)
+
 
 Validator for NZ bank accounts.
 
@@ -37,7 +39,7 @@ by adding `nz_bank_account_validator` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:nz_bank_account_validator, "~> 0.1.0"}
+    {:nz_bank_account_validator, "~> 1.0.0"}
   ]
 end
 ```
