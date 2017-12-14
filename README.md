@@ -1,7 +1,7 @@
 # NzBankAccountValidator
 
 [![Build Status](https://travis-ci.org/fsanggang/nz_bank_account_validator.svg?branch=master)](https://github.com/fsanggang/nz_bank_account_validator)
-[![Hex.pm](https://img.shields.io/hexpm/v/slugify.svg)](https://hex.pm/packages/nz_bank_account_validator)
+[![Hex.pm](https://img.shields.io/hexpm/v/nz_bank_account_validator.svg)](https://hex.pm/packages/nz_bank_account_validator)
 
 
 Validator for NZ bank accounts.
